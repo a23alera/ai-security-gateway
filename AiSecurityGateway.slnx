@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="AiSecurityGateway.Api/AiSecurityGateway.Api.csproj" />
+  <Project Path="AiSecurityGateway.Core/AiSecurityGateway.Core.csproj" />
+  <Project Path="AiSecurityGateway.Infrastructure/AiSecurityGateway.Infrastructure.csproj" />
+  <Project Path="AiSecurityGateway.Security/AiSecurityGateway.Security.csproj" />
+  <Project Path="AiSecurityGateway.Tests/AiSecurityGateway.Tests.csproj" />
+</Solution>
