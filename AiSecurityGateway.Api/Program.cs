@@ -16,6 +16,7 @@ builder.Services.AddScoped<JwtTokenGenerator>();
 builder.Services.AddScoped<AuthorizationService>();
 builder.Services.AddScoped<PolicyEngine>();
 builder.Services.AddScoped<IAuditLogger, AuditLogger>();
+builder.Services.AddScoped<AiAuthorizationService>();
 
 // Register controllers.
 builder.Services.AddControllers();

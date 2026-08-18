@@ -11,7 +11,7 @@ public class PolicyEngine
     public PolicyEngine()
     {
         // Temporary policies.
-        // Later these can come from a database or configuration.
+        // Later these can come from database or configuration.
         _policies = new List<AccessPolicy>
         {
             new AccessPolicy
@@ -22,12 +22,16 @@ public class PolicyEngine
                 {
                     "HR",
                     "Admin"
+                },
+                AllowedAgents = new List<string>
+                {
+                    "hr-assistant"
                 }
             }
         };
     }
 
-    // Checks if the identity is allowed to perform the requested action.
+    // Evaluates normal authorization requests.
     public bool Evaluate(AuthorizationRequest request)
     {
         var policy = _policies.FirstOrDefault(p =>
@@ -40,5 +44,33 @@ public class PolicyEngine
         }
 
         return policy.AllowedRoles.Contains(request.Identity.Role);
+    }
+
+    // Evaluates AI requests with agent validation.
+    public bool Evaluate(AiRequestContext context)
+    {
+        var policy = _policies.FirstOrDefault(p =>
+            p.Resource == context.Resource &&
+            p.Action == context.Action);
+
+        if (policy == null)
+        {
+            return false;
+        }
+
+        // Check user role.
+        if (!policy.AllowedRoles.Contains(context.User.Role))
+        {
+            return false;
+        }
+
+        // Check AI agent.
+        if (policy.AllowedAgents.Count > 0 &&
+            !policy.AllowedAgents.Contains(context.AgentId))
+        {
+            return false;
+        }
+
+        return true;
     }
 }
