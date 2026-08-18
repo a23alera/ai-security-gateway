@@ -2,6 +2,7 @@ using AiSecurityGateway.Core.Interfaces;
 using AiSecurityGateway.Security.Authentication;
 using AiSecurityGateway.Security.Authorization;
 using AiSecurityGateway.Infrastructure.Logging;
+using AiSecurityGateway.Core.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,7 @@ builder.Services.AddScoped<AuthorizationService>();
 builder.Services.AddScoped<PolicyEngine>();
 builder.Services.AddScoped<IAuditLogger, AuditLogger>();
 builder.Services.AddScoped<AiAuthorizationService>();
+builder.Services.AddScoped<IAccessControlService, AccessControlService>();
 
 // Register controllers.
 builder.Services.AddControllers();
