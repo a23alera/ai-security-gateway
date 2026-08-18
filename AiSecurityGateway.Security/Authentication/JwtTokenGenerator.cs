@@ -22,8 +22,8 @@ public class JwtTokenGenerator
     {
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, identity.Id),
-            new Claim(JwtRegisteredClaimNames.Name, identity.Name),
+            new Claim(ClaimTypes.NameIdentifier, identity.Id),
+            new Claim(ClaimTypes.Name, identity.Name),
             new Claim(ClaimTypes.Role, identity.Role)
         };
 

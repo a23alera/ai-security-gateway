@@ -3,6 +3,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using AiSecurityGateway.Core.Models;
+using System.Security.Claims;
 
 namespace AiSecurityGateway.Security.Authentication;
 
@@ -16,7 +18,7 @@ public class JwtValidator : ITokenValidator
         _jwtSettings = jwtSettings.Value;
     }
 
-    public bool Validate(string token)
+    public AuthenticatedIdentity? Validate(string token)
     {
         // Defines the rules used when validating the JWT token.
         var validationParameters = new TokenValidationParameters
@@ -39,17 +41,23 @@ public class JwtValidator : ITokenValidator
             // Validates the token signature and claims.
             var handler = new JwtSecurityTokenHandler();
 
-            handler.ValidateToken(
+            var principal = handler.ValidateToken(
                 token,
                 validationParameters,
                 out _);
 
-            return true;
+            // Extract user information from JWT claims.
+            return new AuthenticatedIdentity
+            {
+                Id = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "",
+                Name = principal.FindFirst(ClaimTypes.Name)?.Value ?? "",
+                Role = principal.FindFirst(ClaimTypes.Role)?.Value ?? ""
+            };
         }
         catch
         {
             // Invalid tokens should never continue through the pipeline.
-            return false;
+            return null;
         }
     }
 }

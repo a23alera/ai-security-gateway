@@ -1,6 +1,9 @@
+using AiSecurityGateway.Core.Models;
+
 namespace AiSecurityGateway.Core.Interfaces;
 
 public interface ITokenValidator
 {
-    bool Validate(string token);
+    // Validates token and returns identity information if successful.
+    AuthenticatedIdentity? Validate(string token);
 }
