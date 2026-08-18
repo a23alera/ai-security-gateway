@@ -1,5 +1,6 @@
 using AiSecurityGateway.Core.Interfaces;
 using AiSecurityGateway.Security.Authentication;
+using AiSecurityGateway.Security.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.Configure<JwtSettings>(
 builder.Services.AddScoped<ITokenValidator, JwtValidator>();
 builder.Services.AddScoped<AuthenticationService>();
 builder.Services.AddScoped<JwtTokenGenerator>();
+builder.Services.AddScoped<AuthorizationService>();
+builder.Services.AddScoped<PolicyEngine>();
 
 // Register controllers.
 builder.Services.AddControllers();
