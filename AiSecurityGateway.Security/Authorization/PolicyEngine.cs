@@ -10,8 +10,6 @@ public class PolicyEngine
 
     public PolicyEngine()
     {
-        // Temporary policies.
-        // Later these can come from database or configuration.
         _policies = new List<AccessPolicy>
         {
             new AccessPolicy
@@ -31,7 +29,8 @@ public class PolicyEngine
         };
     }
 
-    // Evaluates normal authorization requests.
+
+    // Evaluates authorization requests.
     public bool Evaluate(AuthorizationRequest request)
     {
         var policy = _policies.FirstOrDefault(p =>
@@ -43,10 +42,24 @@ public class PolicyEngine
             return false;
         }
 
-        return policy.AllowedRoles.Contains(request.Identity.Role);
+        // Check user role.
+        if (!policy.AllowedRoles.Contains(request.Identity.Role))
+        {
+            return false;
+        }
+
+        // Check AI agent.
+        if (policy.AllowedAgents.Count > 0 &&
+            !policy.AllowedAgents.Contains(request.AgentId))
+        {
+            return false;
+        }
+
+        return true;
     }
 
-    // Evaluates AI requests with agent validation.
+
+    // Evaluates AI requests.
     public bool Evaluate(AiRequestContext context)
     {
         var policy = _policies.FirstOrDefault(p =>

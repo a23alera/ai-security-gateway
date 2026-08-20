@@ -28,7 +28,9 @@ public class AuthorizationService
             Resource = request.Resource,
             Action = request.Action,
             Allowed = allowed,
-            Timestamp = DateTime.UtcNow
+            Timestamp = DateTime.UtcNow,
+            AgentId = request.AgentId,
+            ApplicationId = request.ApplicationId
         });
 
         return allowed;

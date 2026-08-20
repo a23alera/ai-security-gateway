@@ -9,9 +9,12 @@ public class AuditLogger : IAuditLogger
     {
         Console.WriteLine(
             $"[{auditEvent.Timestamp}] " +
-            $"User: {auditEvent.UserId}, " +
-            $"Resource: {auditEvent.Resource}, " +
-            $"Action: {auditEvent.Action}, " +
-            $"Allowed: {auditEvent.Allowed}");
+            $"User={auditEvent.UserId} | " +
+            $"Agent={auditEvent.AgentId} | " +
+            $"Application={auditEvent.ApplicationId} | " +
+            $"Resource={auditEvent.Resource} | " +
+            $"Action={auditEvent.Action} | " +
+            $"Allowed={auditEvent.Allowed}"
+        );
     }
 }

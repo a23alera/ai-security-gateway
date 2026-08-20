@@ -6,6 +6,12 @@ public class AuditEvent
     // Who requested the access.
     public required string UserId { get; set; }
 
+    // Which AI agent performed the action.
+    public required string AgentId { get; set; }
+
+    // Which application is using the AI agent.
+    public required string ApplicationId { get; set; }
+
     // The resource that was requested.
     public required string Resource { get; set; }
 

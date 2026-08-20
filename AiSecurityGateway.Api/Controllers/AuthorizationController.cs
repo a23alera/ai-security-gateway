@@ -30,7 +30,13 @@ public class AuthorizationController : ControllerBase
         var request = new AuthorizationRequest
         {
             Identity = identity,
+
+            AgentId = "customer-support",
+
+            ApplicationId = "company-copilot",
+
             Resource = "EmployeeSalaryData",
+
             Action = "Read"
         };
 
